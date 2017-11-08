@@ -1,0 +1,20 @@
+Example Scenario
+
+Config {
+    BackgroundColor = #404040
+    Translate[0] = 0.0
+    Translate[1] = 0.0        
+    DisableSecretButton = False
+    HideToolbar = False
+}
+
+Scene {
+    -8;-1.5;3;3 | surface_graphics/circle.png;bump_plates/circle.png   | Frequency;250.0;0.9;false;false;0.0 | true
+    -4;-1.5;3;3 | surface_graphics/diamond.png;bump_plates/diamond.png | Frequency;50.0;0.9;false;false;0.2  | true
+     0;-1.5;3;3 | surface_graphics/flake.png;bump_plates/flake.png     | Frequency;100.0;0.9;true;false;0.4  | true
+     4;-1.5;3;3 | surface_graphics/hexagon.png;bump_plates/hexagon.png | Frequency;250.0;0.9;false;true;0.6  | true
+     8;-1.5;3;3 | surface_graphics/plus.png;bump_plates/plus.png       | Frequency;250.0;0.9;true;true;0.8   | true     
+}
+
+
+

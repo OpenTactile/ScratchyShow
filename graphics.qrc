@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/buttons.png</file>
+        <file>assets/logo.png</file>
+        <file>assets/Record.svg</file>
+        <file>assets/show.svg</file>
+    </qresource>
+</RCC>
