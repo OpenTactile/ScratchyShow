@@ -23,7 +23,13 @@ void NullModel::apply(const TactileDisplay* display, QVector<FrequencyTable> &ta
     static int cnt = 0;
     cnt++;
 
-    // TODO: Reset voltages to zero
+    for(FrequencyTable& tab : tables)
+    {
+        for(fixed_q5& frequency : tab.frequency)
+            frequency = 0.0;
+        for(fixed_q15& amplitude : tab.amplitude)
+            amplitude = 0.0;
+    }
 
     if(cnt % 100 == 0)
     {
