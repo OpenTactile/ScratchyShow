@@ -25,7 +25,7 @@ FORMS += \
     ui/xlessgui.ui \
     ui/infobox.ui
 
-LIBS += -lusb -lSCRATCHy -lITCHy -latomic -lpthread -lpython3.6m -lboost_python3
+LIBS += -lusb -lSCRATCHy -lITCHy -latomic -lpthread #-lpython3.6m -lboost_python3
 
 DEFINES += "MAP_DIRECTORY=\\\"tactileScenes/\\\""
 

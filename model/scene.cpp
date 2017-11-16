@@ -141,6 +141,7 @@ bool Scene::loadScenario(const QString& filename)
         e.allowDrag = (dnd == "true");
 
         e.statistics.index = entities.size() - 1;
+
         currentLine++;
     }
 
