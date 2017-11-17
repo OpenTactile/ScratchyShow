@@ -1,8 +1,8 @@
 TEMPLATE = app
-QT += core gui widgets testlib
+QT += core gui widgets
 CONFIG += c++14
 INCLUDEPATH += /usr/include/eigen3
-INCLUDEPATH += /usr/include/python3.6m/
+#INCLUDEPATH += /usr/include/python3.6m/
 
 TARGET = ScratchyShow
 
@@ -18,14 +18,11 @@ SOURCES += main.cpp \
     util/lookuptable.cpp \
     util/filelogger.cpp
 
-INCLUDEPATH += ../lib
-INCLUDEPATH += ../
-
 FORMS += \
     ui/xlessgui.ui \
     ui/infobox.ui
 
-LIBS += -lusb -lSCRATCHy -lITCHy -latomic -lpthread #-lpython3.6m -lboost_python3
+LIBS += -lusb -lSCRATCHy -lITCHy -latomic -lpthread
 
 DEFINES += "MAP_DIRECTORY=\\\"tactileScenes/\\\""
 
