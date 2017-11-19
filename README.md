@@ -1,9 +1,9 @@
 # ScratchyShow
 
 ScratchyShow is a graphical user interface to [SCRATCHy](https://github.com/OpenTactile/SCRATCHy) and [ITCHy](https://github.com/OpenTactile/SCRATCHy) - The open hardware- and software-plattform for controlling tactile displays.
+![The whole system in action](documentation/images/tactile_system.jpg)
 
-[TOC]
-This Documentation is currently under development.
+*This documentation is currently under development*
 
 ## Application dependencies
 ScratchyShow requires the following dependencies to be installed:
