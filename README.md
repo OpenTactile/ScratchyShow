@@ -90,11 +90,15 @@ or - if Qt has been configured with OpenGL support - the following command may r
 `ScratchyShow -plugin EvdevMouse -plugin EvdevKeyboard -platform eglfs`
 
 ## Creating scenarios
-*This section is under construction*
+The drop-down box in the upper right of the UI contains a list of scenarios that can be specified by the user.
+It is populated during application start with the files ending with `.tsc` (**T**actile**Sc**enario) found in the ``tactileScenes`` folder. The items will be arranged in ascending order based on the filename.
+
+Each tactile scenario consists of a human-readable and -editable description of a scene that may contain numerous *tactile areas*, i.e. regions on the screen that activate a specific *model* driving the tactile display. Additionally, some "inactive" regions may be specified in order to add graphical elements to e.g. guide the user. (A complex example can be seen on the title graphic showing a scene used in an actual user study.) The *tactile areas* also can be configured to be "draggable" allowing to grab them with the thumb-button of the tactile mouse, resulting in more interactive experiments.
 
 #### Format of *.tsc* files
-An example file is given in the `workingdir/tactileScenes` folder:
-```
+Let's have a look on the example file that will be loaded automatically on first start
+(it is located in the `workingdir/tactileScenes` folder):
+```cpp
 Example Scenario
 
 Config {
@@ -113,9 +117,55 @@ Scene {
      8;-1.5;3;3 | surface_graphics/plus.png;bump_plates/plus.png       | Frequency;250.0;0.9;true;true;0.8   | true
 }
 ```
+Each `.tsc` file follows a specific pattern:
 
-Permutation example:
+- Lines beginning with *#* will be treated as comments and therefore be ignored.
+- The first (non-comment) line specifies the *name* of the scenario that will be displayed in the drop-down box.
+- A *Config* block allows to change the look and behaviour of the UI.
+- A (optional) *Substitute* block can be used to create randomized scenarions (will be discussed in the follow-up example).
+- The *Scene* block specifies the actual tactile areas to be displayed.
+
+##### The *Config* section
+In this section, the following options can be specified in order to manipulate the appearance of the UI:
+- **BackgroundColor**: Allows to change the base color of the main window, has to be specified in HTML notation (`#RRGGBB`).
+- **Translate[0]**: Moves the viewport anchor in x-direction (in metres).
+- **Translate[1]**: Moves the viewport anchor in y-direction (in metres).
+- **DisableSecretButton**: Makes the "Reveal" button in the upper right of the UI insensitiv if set to `True`.
+- **HideToolbar**: Completely removes the "Information area" if set to `True`
+- *Additional options will probably be added in future releases.*
+
+Any other values specified in this area will act as a *string substitution* within the *Scene* section. For example if one specifies `extension = png` in the *Config* section, all occurences of `extension` will be substituted in the *Scene* section, so 
+```cpp
+surface_graphics/circle.extension
 ```
+will become
+```cpp
+surface_graphics/circle.png
+```
+Please be aware that no sanity checks will be made when substituting, so it might not be a particular good idea to specify e.g. `a = b`.
+
+##### The *Scene* section
+Each line in this section defines a single *tactile area* following the pattern
+```cpp
+ PositionX;PositionY;Width;Height | HiddenGraphic;RevealedGraphic | ModelName;[ModelParameters,...] | DragDrop
+```
+The position and size of each area are given in centimetres with the point (0, 0) being located at the center of the screen (unless a translation has been specified in the config section).
+
+The `HiddenGraphic` field hold the relative path to a *.png* or *.jpg* file that will be used to represent the *tactile area* after the scene has been loaded. This representation will be substituted by the file given in `RevealedGraphic` as soon as the *Reveal button* in the upper right of the UI is pressed. The size of the image should be *100 pixels per centimetre* and should match the specified `Width` and `Height`.
+
+The `ModelName` field specifies the model to be assigned to this area. (See below for a tutorial on how to define custom models.) Currently, ScratchyShow contains two pre-defined models:
+
+- `Null`: This model resets the voltages of all actuators to *0V*. It is meant to be used for specifying decorative areas/graphics.
+- `Frequency`: This model accepts the additional arguments `Frequency;Amplitude;ScaleFrequency;ScaleAmplitude;Hue`
+`Frequency` (ranging from 0.0 to 1000.0) and `Amplitude` (ranging from 0.0 to 1.0 (0-100% of the driving voltage)) will affect all actuators of the tactile display simultaneously. In case `ScaleFrequency` and/or `ScaleAmplitude` is set to `true`, the frequency and/or amplitudes will be scaled linearly with the current velocity of the tactile mouse, forming a very "simple model" to drive the display. The last option `Hue` will cause the RGB LED to change color according to the [HSL color model](https://en.wikipedia.org/wiki/HSL_and_HSV).
+
+The `DragDrop` field specifies whether the tactile area can be grabbed and moved around using the thumb-button of the tactile mouse or not.
+
+
+##### The *Substitute* section
+*Under construction*
+
+```cpp
 Randomization Example Scenario
 
 Config {
@@ -134,6 +184,17 @@ Scene {
     %POSX1%;%POSY1%;%SIZE1% | graphics | model | false
     %POSX2%;%POSY2%;%SIZE2% | graphics | model | false
 }
+```
+
+
+```cpp
+POSX = ( 0.0 | 1.0 | 2.0 | 3.0 | 4.0 | 5.0 | 6.0 | 7.0 )   
+```
+
+```cpp
+POSX = ( 5.0 | 0.0 | 2.0 | 7.0 | 6.0 | 1.0 | 4.0 | 3.0 )   
+          |                 |                       |
+       %POSX0%           %POSX3%                 %POSX7%  
 ```
 
 
