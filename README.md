@@ -163,7 +163,10 @@ The `DragDrop` field specifies whether the tactile area can be grabbed and moved
 
 
 ##### The *Substitute* section
-*Under construction*
+This section allows to randomize parts of the scenario thus allowing to e.g. create randomized user studies.
+Similar to the *Config* section, identifiers can be specified that will be substituted within the *Scene* section.
+
+Here is another example scenario, that will place the areas at randomized positions and changing there sizes:
 
 ```cpp
 Randomization Example Scenario
@@ -185,17 +188,17 @@ Scene {
     %POSX2%;%POSY2%;%SIZE2% | graphics | model | false
 }
 ```
-
-
+Here, three *substitution tuples* have been specified using the following format:
 ```cpp
-POSX = ( 0.0 | 1.0 | 2.0 | 3.0 | 4.0 | 5.0 | 6.0 | 7.0 )   
+POSX = ( 0.0 | 1.0 | 2.0 | 3.0 | 4.0 | 5.0 | 6.0 | 7.0 )
 ```
-
+Each entry of the tuple (enclosed by parentheses) is separated using the "pipe" symbol "|". When the scene is loaded, all  entries of the tuple will be *randomly permutated*. For example, the following permutation could be possible:
 ```cpp
-POSX = ( 5.0 | 0.0 | 2.0 | 7.0 | 6.0 | 1.0 | 4.0 | 3.0 )   
+POSX = ( 5.0 | 0.0 | 2.0 | 7.0 | 6.0 | 1.0 | 4.0 | 3.0 )
           |                 |                       |
-       %POSX0%           %POSX3%                 %POSX7%  
+       %POSX0%           %POSX3%                 %POSX7%
 ```
+Each entry can be accessed individually using the scheme shown in this example. In this case, all occurences of `%POS3%` within the *Scene* section will be substituted with `7.0`. Please note that the tuple entries are not limited to numbers. They may contain arbitrary strings such as filenames, model arguments, etc. as well.
 
 
 #### Calibrating the monitor
