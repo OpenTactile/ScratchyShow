@@ -109,6 +109,12 @@ int main(int argc, char* argv[])
         qDebug() << file << "->" <<  title;
     }
 
+    if(tactileScenes.size() == 0)
+    {
+        qDebug() << "No tactile scenes found. Aborting.";
+        exit(-1);
+    }
+
     int currentMap = 0;
     int nextMap = 0;
     view->showSelection(tactileScenes[currentMap].second, tactileScenes[nextMap].second);
