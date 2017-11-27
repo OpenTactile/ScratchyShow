@@ -27,16 +27,14 @@
 #include "util/hardwareabstraction.h"
 
 #include "util/filelogger.h"
+#include "config.h"
 
-#define VERSION_STRING "v0.5"
+#define VERSION_STRING "v1.0"
 
 //#define REALTIME_PRIORITY
 
-const int targetHz = 1000;
-
 int main(int argc, char* argv[])
 {
-
 #ifdef REALTIME_PRIORITY
     // Realtime priority (Dangerous, may freeze system!)
     __pid_t pid = getpid();
@@ -60,15 +58,8 @@ int main(int argc, char* argv[])
     // Initialize mouse
     PositionQuery* currentPosition = HAL.connectInputdevice(new ConstantVelocityQuery(0.05, 0.305));
 
-    // TODO: Parse from file
     // Load tactile display definition
-    TactileDisplay tactileDisplay;
-
-    tactileDisplay << Actuator(QVector2D(-4, 0.0),      QVector2D(0.71, 12.5),  0, 1, 2)
-                   << Actuator(QVector2D(-2, 0.0),      QVector2D(0.71, 12.5),  0, 1, 0)
-                   << Actuator(QVector2D( 0.0, 0.0),    QVector2D(0.71, 12.5),  0, 2, 0)
-                   << Actuator(QVector2D(2, 0.0),       QVector2D(0.71, 12.5),  0, 1, 1)
-                   << Actuator(QVector2D(4, 0.0),       QVector2D(0.71, 12.5),  0, 1, 3);
+    TactileDisplay tactileDisplay = tactileDisplayConfig();
 
     HAL.initializeSignalBoards();
 
@@ -198,7 +189,7 @@ int main(int argc, char* argv[])
             // ----
 
             qint64 elapsed = perfcounter.nsecsElapsed();
-            const int wait = 1e6/targetHz - elapsed/1000;
+            const int wait = 1e6/updateLimit() - elapsed/1000;
             if(wait > 0)
                 usleep(wait);
 

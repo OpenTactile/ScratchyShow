@@ -25,10 +25,10 @@
 #include <QGraphicsColorizeEffect>
 #include <QPushButton>
 #include <util/filelogger.h>
+#include <config.h>
 
-// TODO: Make this configurable
-const float screenWidth = 0.52f;
-const float screenHeight = 0.25f;
+const float screenWidth = screenDimensions()[0];
+const float screenHeight = screenDimensions()[1];
 
 HDMIScreen::HDMIScreen():
     uiMain(new Ui::MainWindow),

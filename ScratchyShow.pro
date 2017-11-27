@@ -41,7 +41,8 @@ HEADERS += \
     util/lookuptable.h \
     util/filelogger.h \
     model/entity.h \
-    view/viewentity.h
+    view/viewentity.h \
+    config.h
 
 fake {
     DEFINES += FAKEMODE    
