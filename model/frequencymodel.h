@@ -12,6 +12,10 @@ public:
     virtual void apply(const TactileDisplay* display, QVector<FrequencyTable>& tables);
 
 private:
+    // 5cm/s is the velocity where the specified
+    // frequency and amplitude will be reached
+    const float referenceVelocity = 0.05;
+
     float frequency = 200.0;
     float amplitude = 1.0;
     bool scaleFrequency = false;

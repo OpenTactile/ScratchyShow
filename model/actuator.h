@@ -24,8 +24,6 @@ struct Actuator
     unsigned char MapID  = 0;
     unsigned char PortID = 0;
     unsigned char PinID  = 0;
-
-    // Additional parameters here...
 };
 
 #endif // ACTUATOR_H

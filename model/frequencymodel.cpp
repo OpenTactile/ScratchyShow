@@ -36,48 +36,43 @@ void FrequencyModel::initialize(const QStringList& options, PositionQuery* posit
 void FrequencyModel::apply(const TactileDisplay* display, QVector<FrequencyTable> &tables)
 {
     static int cnt = 0;
-    cnt++;
+    cnt++;    
 
-    const float referenceVelocityInv = 1.0/0.025;
+    const float referenceVelocityInv = 1.0f/referenceVelocity;
 
-    // TODO: Create & Send tables manually
-    /*
-    for(int i = 0; i < data.size(); i++)
+    for(int i = 0; i < tables.size(); i++)
     {
         const Actuator& actuator = display->actuators()[i];
         float velocity = actuator.velocity.length();
 
         float factor = velocity * referenceVelocityInv;
 
-        for(int j = 0; j < FREQUENCYCOUNT; j++)
-        {
-            data[i].absoluteOffset = 0.0;
+        FrequencyTable& table = tables[i];
+
+        for(int j = 0; j < table.frequency.size(); j++)
+        {            
             if(j == 0)
             {
-                data[i].frequency[j] = frequency;
-                data[i].amplitude[j] = amplitude;
+                table.frequency[j] = (scaleFrequency)?
+                            frequency * factor :
+                            frequency ;
+                table.amplitude[j] = (scaleAmplitude)?
+                            amplitude * factor :
+                            amplitude;
+
+                table.frequency[j] = std::min(table.frequency[j],
+                                              fixed_q5(1000.0f));
+                table.amplitude[j] = std::min(table.amplitude[j],
+                                              fixed_q15(1.0f));
             }
             else
             {
-                data[i].frequency[j] = 0.0;
-                data[i].amplitude[j] = 0.0;
+                table.frequency[j] = 0.0;
+                table.amplitude[j] = 0.0;
                 continue;
             }
-
-            if(scaleFrequency) data[i].frequency[j] *= factor;
-            if(scaleAmplitude) data[i].amplitude[j] *= factor;
-
-            if(data[i].frequency[j] > 1000.0)
-            {
-                data[i].frequency[j] = 1000.0;
-            }
-
-            if(data[i].amplitude[j] > 1.0)
-            {
-                data[i].amplitude[j] = 1.0;
-            }
         }
-    }*/
+    }
 
     if(cnt % 100 == 0)
     {
