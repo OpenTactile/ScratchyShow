@@ -3,8 +3,6 @@
 ScratchyShow is a graphical user interface to [SCRATCHy](https://github.com/OpenTactile/SCRATCHy) and [ITCHy](https://github.com/OpenTactile/SCRATCHy) - The open hardware- and software-plattform for controlling tactile displays.
 ![The whole system in action](documentation/images/tactile_system.jpg)
 
-*This documentation is currently under development*
-
 ## Application dependencies
 ScratchyShow requires the following dependencies to be installed:
 - [libSCRATCHy](https://github.com/OpenTactile/SCRATCHy)
@@ -202,26 +200,35 @@ Each entry can be accessed individually using the scheme shown in this example. 
 
 
 #### Calibrating the monitor
-In order to take the size of the screen into account (so 1cm travelled with ITCHy translates to 1cm on the screen), please edit the file `hdmiscreen.cpp` within the `view` folder:
+In order to take the size of the screen into account (so 1cm travelled with ITCHy translates to 1cm on the screen), please edit the file `config.h`:
 ```cpp
-const float screenWidth = 0.52f;
-const float screenHeight = 0.25f;
+constexpr std::array<float, 2>
+screenDimensions()
+{
+    return {
+      0.52,     // Screen width in metres
+      0.25      // Screen height in metres
+    };
+}
 ```
 These values are given in metres.
-(We will make this configurable through the scene-file in future releases.)
 
 #### Tactile display definition
-Currently the definition of the tactile display takes place within the `main.cpp`.
-(This will be moved to the scene-file as well in future releases.)
-Having a look on lines 65-71 reveals the standard definition:
+The definition of the tactile display is carreid out in the file `config.h` as well:
 ```cpp
-TactileDisplay tactileDisplay;
+inline TactileDisplay
+tactileDisplayConfig()
+{
+    TactileDisplay display;
 
-tactileDisplay << Actuator(QVector2D(-4.0, 0.0), QVector2D(0.71, 12.5),  0, 1, 2)
-               << Actuator(QVector2D(-2.0, 0.0), QVector2D(0.71, 12.5),  0, 1, 0)
-               << Actuator(QVector2D( 0.0, 0.0), QVector2D(0.71, 12.5),  0, 2, 0)
-               << Actuator(QVector2D( 2.0, 0.0), QVector2D(0.71, 12.5),  0, 1, 1)
-               << Actuator(QVector2D( 4.0, 0.0), QVector2D(0.71, 12.5),  0, 1, 3);
+    display << Actuator(QVector2D(-4, 0), QVector2D(0.71, 12.5),  0, 1, 2)
+            << Actuator(QVector2D(-2, 0), QVector2D(0.71, 12.5),  0, 1, 0)
+            << Actuator(QVector2D( 0, 0), QVector2D(0.71, 12.5),  0, 2, 0)
+            << Actuator(QVector2D( 2, 0), QVector2D(0.71, 12.5),  0, 1, 1)
+            << Actuator(QVector2D( 4, 0), QVector2D(0.71, 12.5),  0, 1, 3);
+
+    return display;
+}
 ```
 Following this scheme, as many actuators as needed may be added to the tactile display object.
 The example given above creates a single-row tactile display definition consisting of five actuators evenly spaced with a distance of 2mm between individual actuators.
