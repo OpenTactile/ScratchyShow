@@ -15,11 +15,14 @@ NullModel::~NullModel()
 
 void NullModel::initialize(const QStringList& options, PositionQuery* position, QRectF bounds)
 {
+    Q_UNUSED(options)
+    Q_UNUSED(bounds)
     this->position = position;
 }
 
 void NullModel::apply(const TactileDisplay* display, QVector<FrequencyTable> &tables)
 {
+    Q_UNUSED(display)
     static int cnt = 0;
     cnt++;
 

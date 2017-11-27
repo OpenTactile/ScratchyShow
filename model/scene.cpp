@@ -181,6 +181,7 @@ void Scene::registerModel(const QString& name, ModelFactory factory)
 
 void Scene::queryMap(const PositionQuery* position, QVector<FrequencyTable>& out)
 {
+    Q_UNUSED(position)
     std::lock_guard<std::mutex> lock(mutex);
 
     Entity* currentEntity = nullptr;    

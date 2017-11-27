@@ -20,6 +20,8 @@ FrequencyModel::~FrequencyModel()
 
 void FrequencyModel::initialize(const QStringList& options, PositionQuery* position, QRectF bounds)
 {
+    Q_UNUSED(bounds)
+
     frequency = options[0].toFloat();
     amplitude = options[1].toFloat();
 
@@ -49,7 +51,7 @@ void FrequencyModel::apply(const TactileDisplay* display, QVector<FrequencyTable
 
         FrequencyTable& table = tables[i];
 
-        for(int j = 0; j < table.frequency.size(); j++)
+        for(unsigned int j = 0; j < table.frequency.size(); j++)
         {            
             if(j == 0)
             {

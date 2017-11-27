@@ -198,7 +198,7 @@ void HardwareAbstraction::sendTables(const TactileDisplay* display,
 
         if(ticks > 0 && ticks % 1000 == 0)
         {
-            float us = timer.nsecsElapsed()/float(ticks) * 1.0e-9;
+            //float us = timer.nsecsElapsed()/float(ticks) * 1.0e-9;
             //qDebug() << "s: " << us << "\tHz: " << 1.0/us;
             ticks = 0;
             timer.restart();

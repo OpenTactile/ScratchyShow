@@ -10,7 +10,6 @@ SOURCES += main.cpp \
     util/hardwareabstraction.cpp \
     view/displaybreakout.cpp \
     view/hdmiscreen.cpp \
-    view/graphicalobjects.cpp \
     model/scene.cpp \
     model/tactiledisplay.cpp \    
     model/nullmodel.cpp \
@@ -31,7 +30,6 @@ HEADERS += \
     view/view.h \
     view/displaybreakout.h \
     view/hdmiscreen.h \
-    view/graphicalobjects.h \
     model/scene.h \
     model/tactiledisplay.h \
     model/actuator.h \
